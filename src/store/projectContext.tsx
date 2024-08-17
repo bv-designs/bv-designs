@@ -21,6 +21,7 @@ export const ProjectProvider: React.FC<{ children: ReactNode }> = ({
   );
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useProjectContext = () => {
   const context = useContext(ProjectContext);
   if (!context) {

@@ -1,6 +1,30 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;700&family=Roboto:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap'); */
+
+/* @import url('https://fonts.googleapis.com/css2?family=New+Amsterdam&display=swap'); */
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=New+Amsterdam&display=swap');
+
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+
+* {
+  box-sizing: border-box;
+}
+body, html {
+  overflow-x: hidden;
+}
+
+body {
+  /* font-family: "New Amsterdam", sans-serif; */
+  /* font-family: 'Playfair Display', serif; */
+  font-family: "Montserrat", sans-serif;
+}
+
 
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -70,3 +94,54 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+
+/* Apply to all scrollbars */
+::-webkit-scrollbar {
+  width: 8px; /* Less width for the scrollbar */
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Light grey background for the track */
+  border-radius: 10px; /* Rounded corners for the track */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #000; /* Black color for the thumb */
+  opacity: 0.2;
+
+  border-radius: 10px; /* Rounded corners for the thumb */
+  border: 2px solid #f1f1f1; /* Adds a small border around the thumb */
+}
+
+/* Firefox scrollbar styling */
+* {
+  scrollbar-width: thin; /* Less width for the scrollbar */
+  scrollbar-color: #000 #f1f1f1; /* Black thumb and light grey track */
+}
+
+/* Remove the default blue color on hover and apply custom hover effects */
+nav a {
+  color: white; /* Default link color */
+  text-decoration: none; /* Remove underline */
+}
+
+nav a:hover {
+  color: #ffcc00; /* Custom hover color */
+  text-decoration: none; /* Ensure no underline appears */
+}
+
+nav a::after {
+  content: '';
+  display: block;
+  height: 2px;
+  background: #ffcc00;
+  transition: width 0.3s;
+  width: 0;
+}
+
+nav a:hover::after,
+nav a.active::after {
+  width: 100%;
+}
+

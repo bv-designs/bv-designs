@@ -89,13 +89,67 @@ const projectData: Project[] = [
         description: 'A sustainable sanctuary in harmony with nature.',
       },
     ],
+  }, {
+    id: 'residential-project',
+    title: 'Residential Project',
+    description:
+      'Residential Project is an architectural project that reimagines an industrial space into a modern residential oasis. The design retains the raw beauty of the original structure, including exposed brick walls and steel beams, while introducing modern amenities and luxury finishes. We used reclaimed wood for the flooring and custom steel fixtures to maintain the industrial aesthetic. The approach was to create a space that feels expansive and airy, with an emphasis on sustainability and adaptive reuse. The result is a unique blend of historical charm and contemporary living, offering an urban retreat that is both stylish and functional.',
+    videoSrc: '/assets/videos/video6.mp4',
+    images: [
+      '/assets/images/Z_INT_1.png',
+      '/assets/images/Z_INT_2.png',
+      '/assets/images/Z_INT_3.png',
+    ],
+    overview:
+        'Residential Project transforms an industrial space into a contemporary living environment while retaining its historic charm.',
+    testimonial:
+      'The Residential Project is everything we hoped for and more. The blend of old and new is truly stunning.',
+    clientName: 'Jane Smith',
+    timeline: [
+      {
+        date: 'February 2023',
+        description: 'Initial design and structural analysis',
+      },
+      { date: 'April 2023', description: 'Construction and restoration work' },
+      {
+        date: 'July 2023',
+        description: 'Interior finishing and final touches',
+      },
+      {
+        date: 'October 2023',
+        description: 'Project completion and client handover',
+      },
+    ],
+    specifications: [
+      'Exposed brick walls and steel beams',
+      'Reclaimed wood flooring',
+      'Custom steel fixtures',
+      'Sustainable design practices',
+    ],
+    team: [
+      { name: 'Alice Johnson', role: 'Lead Architect' },
+      { name: 'David Brown', role: 'Structural Engineer' },
+      { name: 'Emily Green', role: 'Interior Designer' },
+    ],
+    relatedProjects: [
+      {
+        id: 'eco-friendly-retreat',
+        title: 'Eco-Friendly Retreat',
+        description: 'A sustainable sanctuary in harmony with nature.',
+      },
+      {
+        id: 'coastal-residence',
+        title: 'Coastal Residence',
+        description: 'A luxurious beachfront home with stunning ocean views.',
+      },
+    ],
   },
   {
-    id: 'urban-loft',
-    title: 'Urban Loft',
+    id: 'hiranandani-park',
+    title: 'Hiranandani Park',
     description:
-      'Urban Loft is an architectural project that reimagines an industrial space into a modern residential oasis. The design retains the raw beauty of the original structure, including exposed brick walls and steel beams, while introducing modern amenities and luxury finishes. We used reclaimed wood for the flooring and custom steel fixtures to maintain the industrial aesthetic. The approach was to create a space that feels expansive and airy, with an emphasis on sustainability and adaptive reuse. The result is a unique blend of historical charm and contemporary living, offering an urban retreat that is both stylish and functional.',
-    videoSrc: '/assets/videos/video2.mp4',
+      'Hiranandani Park is an architectural project that reimagines an industrial space into a modern residential oasis. The design retains the raw beauty of the original structure, including exposed brick walls and steel beams, while introducing modern amenities and luxury finishes. We used reclaimed wood for the flooring and custom steel fixtures to maintain the industrial aesthetic. The approach was to create a space that feels expansive and airy, with an emphasis on sustainability and adaptive reuse. The result is a unique blend of historical charm and contemporary living, offering an urban retreat that is both stylish and functional.',
+    videoSrc: '/assets/videos/video5.mp4',
     images: [
       '/assets/images/Z_INT_1.png',
       '/assets/images/Z_INT_2.png',

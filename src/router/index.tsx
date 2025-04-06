@@ -21,6 +21,7 @@ const BvRouter: React.FC = () => {
           <Route path='/projects' element={<Projects />} />
           <Route path='/projects/:id' element={<ProjectDetails />} />
           <Route path='/contact-us' element={<ContactUs />} />
+          {/* <Route path='/demo' element={<ParallaxDemo />} /> */}
         </Routes>
       </div>
       <Footer />

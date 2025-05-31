@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import {
   Home,
-  Testimonials,
+  // Testimonials,
   Projects,
   ProjectDetails,
   ContactUs,
@@ -17,7 +17,7 @@ const BvRouter: React.FC = () => {
       <div className='flex-grow'>
         <Routes>
           <Route path='/' element={<Home />} />
-          <Route path='/testimonials' element={<Testimonials />} />
+          {/* <Route path='/testimonials' element={<Testimonials />} /> */}
           <Route path='/projects' element={<Projects />} />
           <Route path='/projects/:id' element={<ProjectDetails />} />
           <Route path='/contact-us' element={<ContactUs />} />

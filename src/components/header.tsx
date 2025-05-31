@@ -80,14 +80,14 @@ const Header: React.FC = () => {
             >
               Projects
             </NavLink>
-            <NavLink
+            {/* <NavLink
               to="/testimonials"
               className={`text-white font-medium text-lg relative ${
                 location.pathname === '/testimonials' ? 'text-yellow-400' : ''
               }`}
             >
               Testimonials
-            </NavLink>
+            </NavLink> */}
             <NavLink
               to="/contact-us"
               className={`text-white font-medium text-lg relative ${

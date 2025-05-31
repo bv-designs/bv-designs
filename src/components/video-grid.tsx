@@ -1,24 +1,42 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useProjectContext } from '../store/projectContext';
+import { motion } from 'framer-motion';
 
 interface Props {
-  from: 'home' | 'project'
+  from: 'home' | 'project';
+  onVideosLoaded?: () => void;
 }
 
-const VideoGrid: React.FC<Props> = ({ from }: Props) => {
+const VideoGrid: React.FC<Props> = ({ from, onVideosLoaded }: Props) => {
   const navigate = useNavigate();
   const { projects } = useProjectContext();
+  const [loadedVideos, setLoadedVideos] = useState<Set<string>>(new Set());
 
   const handleClick = (id: string) => {
     navigate(`/projects/${id}`);
   };
 
+  const handleVideoLoad = (id: string) => {
+    setLoadedVideos(prev => {
+      const newSet = new Set([...prev, id]);
+      if (newSet.size === projectToshow.length && onVideosLoaded) {
+        onVideosLoaded();
+      }
+      return newSet;
+    });
+  };
+
   const projectToshow = from === 'home' ? projects.slice(0, 4) : projects;
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-4">
+    <motion.div 
+      className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-4"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ delay: 0.8, duration: 0.5 }}
+    >
       {projectToshow.map((project) => (
         <Card
           key={project.id}
@@ -31,7 +49,10 @@ const VideoGrid: React.FC<Props> = ({ from }: Props) => {
             loop
             muted
             className="w-full h-full object-cover"
-            onLoadedData={(e) => e.currentTarget.play().catch(err => console.error(err))}
+            onLoadedData={(e) => {
+              e.currentTarget.play().catch(err => console.error(err));
+              handleVideoLoad(project.id);
+            }}
           />
           <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
             {/* Empty div for hover effect */}
@@ -41,7 +62,7 @@ const VideoGrid: React.FC<Props> = ({ from }: Props) => {
           </div>
         </Card>
       ))}
-    </div>
+    </motion.div>
   );
 };
 

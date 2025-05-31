@@ -21,7 +21,7 @@ const Projects: React.FC = () => {
   const ctaOpacity = useTransform(ctaScroll, [0, 0.5, 1], [0.8, 1, 0.8]);
 
   return (
-    <div className="bg-gradient-to-b from-gray-900 to-black">
+    <div >
       <VideoGrid from='project' />
       
       <motion.section 

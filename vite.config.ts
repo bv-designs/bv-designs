@@ -5,11 +5,12 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   optimizeDeps: {
-    include: ['three', '@react-three/fiber', '@react-three/drei']
+    include: [ '@emotion/react', 'hoist-non-react-statics']
   },
   build: {
     commonjsOptions: {
-      include: [/three/, /drei/, /fiber/]
-    }
+      include: [/node_modules/], // more general to avoid future issues
+      transformMixedEsModules: true,
+    },
   }
 })

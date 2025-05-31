@@ -1,12 +1,80 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { VideoGrid } from '../components';
 import { Link } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const Home: React.FC = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [isExpanding, setIsExpanding] = useState(false);
+  const [startTime] = useState(Date.now());
+
+  useEffect(() => {
+    const hasVisited = sessionStorage.getItem('hasVisitedHome');
+    if (!hasVisited) {
+      setIsLoading(true);
+      sessionStorage.setItem('hasVisitedHome', 'true');
+    }
+  }, []);
+
+  const handleVideosLoaded = () => {
+    const elapsedTime = Date.now() - startTime;
+    const remainingTime = Math.max(0, 1000 - elapsedTime);
+    
+    setTimeout(() => {
+      setIsExpanding(true);
+      setTimeout(() => {
+        setIsLoading(false);
+        window.scrollTo(0, 0);
+      }, 800);
+    }, remainingTime);
+  };
+
   return (
     <>
+      <AnimatePresence>
+        {isLoading && (
+          <motion.div
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.8, ease: "easeInOut" }}
+            className="fixed inset-0 bg-white flex items-center justify-center z-[9999]"
+          >
+            <motion.div
+              className="bg-black p-8 rounded-full"
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={isExpanding ? 
+                { 
+                  scale: 30,
+                  opacity: 0,
+                  transition: { 
+                    duration: 0.8,
+                    ease: [0.4, 0, 0.2, 1],
+                    opacity: { duration: 0.6 }
+                  }
+                } : 
+                { 
+                  scale: [0.8, 1, 0.8],
+                  opacity: [0.5, 1, 0.5],
+                  transition: {
+                    duration: 2,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }
+                }
+              }
+            >
+              <motion.img
+                src="/assets/logo-1.png"
+                alt="Loading..."
+                className="w-32 h-32 object-contain invert"
+              />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <div className="relative">
-        <VideoGrid from="home" />
+        <VideoGrid from="home" onVideosLoaded={handleVideosLoaded} />
         <Link
           to="/projects"
           className="absolute right-8 pb-1 hover:underline text-gray-500 hover:text-black transition duration-300"

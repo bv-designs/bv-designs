@@ -1,7 +1,152 @@
-import React from 'react'
+import React, { useState, useRef } from 'react'
 import { motion } from 'framer-motion'
+import emailjs from '@emailjs/browser'
+
+interface FormData {
+  name: string;
+  email: string;
+  phone: string;
+  query: string;
+  [key: string]: string;
+}
+
+interface FormErrors {
+  name: string;
+  email: string;
+  phone: string;
+  query: string;
+}
 
 const ContactUs: React.FC = () => {
+  const formRef = useRef<HTMLFormElement>(null);
+  const [formData, setFormData] = useState<FormData>({
+    name: '',
+    email: '',
+    phone: '',
+    query: ''
+  });
+  const [errors, setErrors] = useState<FormErrors>({
+    name: '',
+    email: '',
+    phone: '',
+    query: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'success' | 'error' | null>(null);
+
+  const showToast = (message: string) => {
+    const toast = document.createElement('div');
+    toast.className = 'fixed bottom-4 right-4 bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg transform transition-all duration-500 ease-in-out z-50';
+    toast.style.opacity = '0';
+    toast.style.transform = 'translateY(20px)';
+    toast.textContent = message;
+    
+    document.body.appendChild(toast);
+    
+    // Trigger animation
+    setTimeout(() => {
+      toast.style.opacity = '1';
+      toast.style.transform = 'translateY(0)';
+    }, 100);
+
+    // Remove toast after 5 seconds
+    setTimeout(() => {
+      toast.style.opacity = '0';
+      toast.style.transform = 'translateY(20px)';
+      setTimeout(() => {
+        document.body.removeChild(toast);
+      }, 500);
+    }, 5000);
+  };
+
+  const validateForm = (): boolean => {
+    let valid = true;
+    const newErrors: FormErrors = {
+      name: '',
+      email: '',
+      phone: '',
+      query: ''
+    };
+
+    if (!formData.name) {
+      newErrors.name = 'Name is required';
+      valid = false;
+    }
+
+    if (!formData.email) {
+      newErrors.email = 'Email is required';
+      valid = false;
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = 'Email address is invalid';
+      valid = false;
+    }
+
+    if (!formData.phone) {
+      newErrors.phone = 'Phone number is required';
+      valid = false;
+    } else if (!/^\d{10}$/.test(formData.phone)) {
+      newErrors.phone = 'Phone number must be 10 digits';
+      valid = false;
+    }
+
+    if (!formData.query) {
+      newErrors.query = 'Query is required';
+      valid = false;
+    }
+
+    setErrors(newErrors);
+    return valid;
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+    // Clear error when user starts typing
+    if (errors[name as keyof FormErrors]) {
+      setErrors(prev => ({
+        ...prev,
+        [name]: ''
+      }));
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!validateForm()) {
+      return;
+    }
+
+    setIsSubmitting(true);
+    setSubmitStatus(null);
+
+    try {
+      await emailjs.send(
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+        formData,
+        import.meta.env.VITE_EMAILJS_USER_ID
+      );
+
+      setSubmitStatus('success');
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        query: ''
+      });
+      showToast('Thank you for reaching out! Our team will connect with you soon.');
+    } catch (error) {
+      setSubmitStatus('error');
+      showToast('Sorry, there was an error sending your message. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
       {/* Hero Section */}
@@ -121,7 +266,7 @@ const ContactUs: React.FC = () => {
             <h2 className="text-2xl md:text-3xl font-bold text-center text-gray-900 mb-8">
               Contact Us
             </h2>
-            <form className="space-y-6">
+            <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
@@ -131,9 +276,16 @@ const ContactUs: React.FC = () => {
                     type="text"
                     id="name"
                     name="name"
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    value={formData.name}
+                    onChange={handleChange}
+                    className={`w-full px-4 py-3 rounded-lg border ${
+                      errors.name ? 'border-red-500' : 'border-gray-200'
+                    } bg-gray-50 text-gray-700 placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:bg-white transition-colors`}
                     placeholder="Your name"
                   />
+                  {errors.name && (
+                    <p className="mt-1 text-sm text-red-500">{errors.name}</p>
+                  )}
                 </div>
                 <div>
                   <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
@@ -143,45 +295,79 @@ const ContactUs: React.FC = () => {
                     type="email"
                     id="email"
                     name="email"
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    value={formData.email}
+                    onChange={handleChange}
+                    className={`w-full px-4 py-3 rounded-lg border ${
+                      errors.email ? 'border-red-500' : 'border-gray-200'
+                    } bg-gray-50 text-gray-700 placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:bg-white transition-colors`}
                     placeholder="Your email"
                   />
+                  {errors.email && (
+                    <p className="mt-1 text-sm text-red-500">{errors.email}</p>
+                  )}
                 </div>
               </div>
               <div>
-                <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-2">
-                  Subject
+                <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
+                  Phone
                 </label>
                 <input
-                  type="text"
-                  id="subject"
-                  name="subject"
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                  placeholder="Subject"
+                  type="tel"
+                  id="phone"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  className={`w-full px-4 py-3 rounded-lg border ${
+                    errors.phone ? 'border-red-500' : 'border-gray-200'
+                  } bg-gray-50 text-gray-700 placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:bg-white transition-colors`}
+                  placeholder="Your phone number"
                 />
+                {errors.phone && (
+                  <p className="mt-1 text-sm text-red-500">{errors.phone}</p>
+                )}
               </div>
               <div>
-                <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
-                  Message
+                <label htmlFor="query" className="block text-sm font-medium text-gray-700 mb-2">
+                  Your Message
                 </label>
                 <textarea
-                  id="message"
-                  name="message"
-                  rows={4}
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  id="query"
+                  name="query"
+                  value={formData.query}
+                  onChange={handleChange}
+                  rows={6}
+                  className={`w-full px-4 py-3 rounded-lg border ${
+                    errors.query ? 'border-red-500' : 'border-gray-200'
+                  } bg-gray-50 text-gray-700 placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:bg-white transition-colors min-h-[150px] resize-none`}
                   placeholder="Your message"
                 ></textarea>
+                {errors.query && (
+                  <p className="mt-1 text-sm text-red-500">{errors.query}</p>
+                )}
               </div>
               <div className="text-center">
                 <motion.button
                   type="submit"
-                  className="inline-block bg-blue-600 text-white font-semibold px-8 py-4 rounded-lg hover:bg-blue-700 transition duration-300 text-lg"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+                  disabled={isSubmitting}
+                  className={`inline-block bg-blue-600 text-white font-semibold px-8 py-4 rounded-lg transition duration-300 text-lg ${
+                    isSubmitting ? 'opacity-50 cursor-not-allowed' : 'hover:bg-blue-700'
+                  }`}
+                  whileHover={!isSubmitting ? { scale: 1.05 } : {}}
+                  whileTap={!isSubmitting ? { scale: 0.95 } : {}}
                 >
-                  Send Message
+                  {isSubmitting ? 'Sending...' : 'Send Message'}
                 </motion.button>
               </div>
+              {submitStatus === 'success' && (
+                <p className="text-center text-green-600 mt-4">
+                  Thank you for your message! We'll get back to you soon.
+                </p>
+              )}
+              {submitStatus === 'error' && (
+                <p className="text-center text-red-600 mt-4">
+                  Sorry, there was an error sending your message. Please try again.
+                </p>
+              )}
             </form>
           </div>
         </div>

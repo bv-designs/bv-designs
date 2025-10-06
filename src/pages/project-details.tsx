@@ -21,7 +21,7 @@ const ProjectDetails: React.FC = () => {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
@@ -35,13 +35,16 @@ const ProjectDetails: React.FC = () => {
           loop
           playsInline
           preload="metadata"
-          // poster={project.videoPoster}
+          onError={(e) => {
+            console.error('Video load error:', e);
+            // You could add a fallback image here if needed
+          }}
         >
           <source src={project.videoSrc} type="video/mp4" />
           <source src={project.videoSrc.replace('.mp4', '.webm')} type="video/webm" />
         </video>
         <div className="absolute inset-0 bg-black/20" />
-        <motion.div 
+        <motion.div
           className="relative z-10 text-center px-4 w-full max-w-4xl mx-auto mt-16 md:mt-0"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -57,7 +60,7 @@ const ProjectDetails: React.FC = () => {
       </motion.div>
 
       {/* Project Overview */}
-      <motion.section 
+      <motion.section
         className="py-12 md:py-20 px-4"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
@@ -109,7 +112,7 @@ const ProjectDetails: React.FC = () => {
       </motion.section>
 
       {/* Gallery Section */}
-      <motion.section 
+      <motion.section
         className="py-12 md:py-20 bg-gray-50"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
@@ -151,7 +154,7 @@ const ProjectDetails: React.FC = () => {
       </motion.section>
 
       {/* Testimonial Section */}
-      <motion.section 
+      <motion.section
         className="py-12 md:py-20"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
@@ -183,7 +186,7 @@ const ProjectDetails: React.FC = () => {
       </motion.section>
 
       {/* Technical Details */}
-      <motion.section 
+      <motion.section
         className="py-12 md:py-20 bg-gray-50"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
@@ -199,7 +202,7 @@ const ProjectDetails: React.FC = () => {
       </motion.section>
 
       {/* Team Section */}
-      <motion.section 
+      <motion.section
         className="py-12 md:py-20"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
@@ -215,7 +218,7 @@ const ProjectDetails: React.FC = () => {
       </motion.section>
 
       {/* Timeline Section */}
-      <motion.section 
+      <motion.section
         className="py-12 md:py-20 bg-gray-50"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
@@ -231,7 +234,7 @@ const ProjectDetails: React.FC = () => {
       </motion.section>
 
       {/* CTA Section */}
-      <motion.section 
+      <motion.section
         className="py-12 md:py-20"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}

@@ -40,9 +40,9 @@ const ContactUs: React.FC = () => {
     toast.style.opacity = '0';
     toast.style.transform = 'translateY(20px)';
     toast.textContent = message;
-    
+
     document.body.appendChild(toast);
-    
+
     // Trigger animation
     setTimeout(() => {
       toast.style.opacity = '1';
@@ -115,7 +115,7 @@ const ContactUs: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!validateForm()) {
       return;
     }
@@ -139,7 +139,8 @@ const ContactUs: React.FC = () => {
         query: ''
       });
       showToast('Thank you for reaching out! Our team will connect with you soon.');
-    } catch (error) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (_e) {
       setSubmitStatus('error');
       showToast('Sorry, there was an error sending your message. Please try again.');
     } finally {
@@ -162,6 +163,9 @@ const ContactUs: React.FC = () => {
           muted
           playsInline
           className="absolute inset-0 w-full h-full object-cover"
+          onError={(e) => {
+            console.error('Office video load error:', e);
+          }}
         >
           <source src="/assets/videos/us/office.mp4" type="video/mp4" />
         </video>
@@ -278,9 +282,8 @@ const ContactUs: React.FC = () => {
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
-                    className={`w-full px-4 py-3 rounded-lg border ${
-                      errors.name ? 'border-red-500' : 'border-gray-200'
-                    } bg-gray-50 text-gray-700 placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:bg-white transition-colors`}
+                    className={`w-full px-4 py-3 rounded-lg border ${errors.name ? 'border-red-500' : 'border-gray-200'
+                      } bg-gray-50 text-gray-700 placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:bg-white transition-colors`}
                     placeholder="Your name"
                   />
                   {errors.name && (
@@ -297,9 +300,8 @@ const ContactUs: React.FC = () => {
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
-                    className={`w-full px-4 py-3 rounded-lg border ${
-                      errors.email ? 'border-red-500' : 'border-gray-200'
-                    } bg-gray-50 text-gray-700 placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:bg-white transition-colors`}
+                    className={`w-full px-4 py-3 rounded-lg border ${errors.email ? 'border-red-500' : 'border-gray-200'
+                      } bg-gray-50 text-gray-700 placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:bg-white transition-colors`}
                     placeholder="Your email"
                   />
                   {errors.email && (
@@ -317,9 +319,8 @@ const ContactUs: React.FC = () => {
                   name="phone"
                   value={formData.phone}
                   onChange={handleChange}
-                  className={`w-full px-4 py-3 rounded-lg border ${
-                    errors.phone ? 'border-red-500' : 'border-gray-200'
-                  } bg-gray-50 text-gray-700 placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:bg-white transition-colors`}
+                  className={`w-full px-4 py-3 rounded-lg border ${errors.phone ? 'border-red-500' : 'border-gray-200'
+                    } bg-gray-50 text-gray-700 placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:bg-white transition-colors`}
                   placeholder="Your phone number"
                 />
                 {errors.phone && (
@@ -336,9 +337,8 @@ const ContactUs: React.FC = () => {
                   value={formData.query}
                   onChange={handleChange}
                   rows={6}
-                  className={`w-full px-4 py-3 rounded-lg border ${
-                    errors.query ? 'border-red-500' : 'border-gray-200'
-                  } bg-gray-50 text-gray-700 placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:bg-white transition-colors min-h-[150px] resize-none`}
+                  className={`w-full px-4 py-3 rounded-lg border ${errors.query ? 'border-red-500' : 'border-gray-200'
+                    } bg-gray-50 text-gray-700 placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:bg-white transition-colors min-h-[150px] resize-none`}
                   placeholder="Your message"
                 ></textarea>
                 {errors.query && (
@@ -349,9 +349,8 @@ const ContactUs: React.FC = () => {
                 <motion.button
                   type="submit"
                   disabled={isSubmitting}
-                  className={`inline-block bg-blue-600 text-white font-semibold px-8 py-4 rounded-lg transition duration-300 text-lg ${
-                    isSubmitting ? 'opacity-50 cursor-not-allowed' : 'hover:bg-blue-700'
-                  }`}
+                  className={`inline-block bg-blue-600 text-white font-semibold px-8 py-4 rounded-lg transition duration-300 text-lg ${isSubmitting ? 'opacity-50 cursor-not-allowed' : 'hover:bg-blue-700'
+                    }`}
                   whileHover={!isSubmitting ? { scale: 1.05 } : {}}
                   whileTap={!isSubmitting ? { scale: 0.95 } : {}}
                 >

@@ -20,8 +20,8 @@ const Header: React.FC = () => {
       <div className=" px-4">
         <div className="flex items-center justify-between">
           {/* Logo Section */}
-          <div 
-            className="flex items-center hover:cursor-pointer" 
+          <div
+            className="flex items-center hover:cursor-pointer"
             onClick={navigateToHome}
           >
             <img
@@ -66,17 +66,15 @@ const Header: React.FC = () => {
           <nav className="hidden md:flex space-x-6">
             <NavLink
               to="/"
-              className={`text-white font-medium text-lg relative ${
-                location.pathname === '/' ? 'text-yellow-400' : ''
-              }`}
+              className={`text-white font-medium text-lg relative ${location.pathname === '/' ? 'text-yellow-400' : ''
+                }`}
             >
               Home
             </NavLink>
             <NavLink
               to="/projects"
-              className={`text-white font-medium text-lg relative ${
-                location.pathname === '/projects' ? 'text-yellow-400' : ''
-              }`}
+              className={`text-white font-medium text-lg relative ${location.pathname === '/projects' ? 'text-yellow-400' : ''
+                }`}
             >
               Projects
             </NavLink>
@@ -90,9 +88,8 @@ const Header: React.FC = () => {
             </NavLink> */}
             <NavLink
               to="/contact-us"
-              className={`text-white font-medium text-lg relative ${
-                location.pathname === '/contact-us' ? 'text-yellow-400' : ''
-              }`}
+              className={`text-white font-medium text-lg relative ${location.pathname === '/contact-us' ? 'text-yellow-400' : ''
+                }`}
             >
               Contact us
             </NavLink>
@@ -110,30 +107,27 @@ const Header: React.FC = () => {
 
         {/* Mobile Navigation Menu */}
         <div
-          className={`md:hidden transition-all duration-300 ease-in-out ${
-            isMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
-          } overflow-hidden`}
+          className={`md:hidden transition-all duration-300 ease-in-out ${isMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+            } overflow-hidden`}
         >
           <nav className="flex flex-col space-y-4 py-4">
             <NavLink
               to="/"
-              className={`text-white font-medium text-lg relative ${
-                location.pathname === '/' ? 'text-yellow-400' : ''
-              }`}
+              className={`text-white font-medium text-lg relative ${location.pathname === '/' ? 'text-yellow-400' : ''
+                }`}
               onClick={() => setIsMenuOpen(false)}
             >
               Home
             </NavLink>
             <NavLink
               to="/projects"
-              className={`text-white font-medium text-lg relative ${
-                location.pathname === '/projects' ? 'text-yellow-400' : ''
-              }`}
+              className={`text-white font-medium text-lg relative ${location.pathname === '/projects' ? 'text-yellow-400' : ''
+                }`}
               onClick={() => setIsMenuOpen(false)}
             >
               Projects
             </NavLink>
-            <NavLink
+            {/* <NavLink
               to="/testimonials"
               className={`text-white font-medium text-lg relative ${
                 location.pathname === '/testimonials' ? 'text-yellow-400' : ''
@@ -141,12 +135,11 @@ const Header: React.FC = () => {
               onClick={() => setIsMenuOpen(false)}
             >
               Testimonials
-            </NavLink>
+            </NavLink> */}
             <NavLink
               to="/contact-us"
-              className={`text-white font-medium text-lg relative ${
-                location.pathname === '/contact-us' ? 'text-yellow-400' : ''
-              }`}
+              className={`text-white font-medium text-lg relative ${location.pathname === '/contact-us' ? 'text-yellow-400' : ''
+                }`}
               onClick={() => setIsMenuOpen(false)}
             >
               Contact us
